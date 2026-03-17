@@ -14,7 +14,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
      if(categoryRepo.count()==0){
-         categoryRepo.save(new Category("plumber"));
+         categoryRepo.save(new Category("Plumber"));
          categoryRepo.save(new Category("Electrician"));
          categoryRepo.save(new Category("Painter"));
          categoryRepo.save(new Category("AC Technician"));

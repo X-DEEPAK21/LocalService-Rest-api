@@ -24,9 +24,9 @@ public class ServiceProviders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-   private String full_name;
+    private String full_name;
     @Column(unique = true,nullable = false,length = 10)
-   private String phone;
+    private String phone;
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;

@@ -20,6 +20,10 @@ public class ServiceController {
     public Page<ServiceProviders> getServicers(){
     return allService.checkRepositoryMethods();
     }
+    @GetMapping("/ai")
+    public Page<ServiceProviders> getServicers2(){
+        return allService.checkRepositoryMethods2();
+    }
 
 
 }

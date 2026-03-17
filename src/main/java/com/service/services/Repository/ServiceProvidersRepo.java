@@ -34,6 +34,12 @@ public interface ServiceProvidersRepo extends JpaRepository<ServiceProviders,Lon
             String district,
             Pageable pageable
     );
+    Page<ServiceProviders> findByCategories_NameAndLocation_StateAndLocation_DistrictAndLocation_Block(
+            String category,
+            String state,
+            String district,
+            String block,
+            Pageable pageable);
     Page<ServiceProviders> findByCategories_NameAndLocation_StateAndLocation_DistrictAndLocation_BlockAndLocation_Village(
             String category,
             String state,
@@ -41,11 +47,6 @@ public interface ServiceProvidersRepo extends JpaRepository<ServiceProviders,Lon
             String block,
             String village,
             Pageable pageable);
-    Page<ServiceProviders> findByCategories_NameAndLocation_StateAndLocation_DistrictAndLocation_Block(
-            String category,
-            String state,
-            String district,
-            String block,
-            Pageable pageable);
+
 
 }
