@@ -10,7 +10,10 @@ import java.util.Set;
 
 @Builder
 @Entity
-@Table(name = "categories")
+@Table(name = "categories",
+        indexes={
+            @Index(name ="idx_name",columnList ="name")
+        })
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,6 +21,7 @@ import java.util.Set;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     Long id;
     String name;
     @JsonIgnore

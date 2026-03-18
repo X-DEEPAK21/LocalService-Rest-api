@@ -23,6 +23,7 @@ import java.util.Set;
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
    private Long id;
     @Column(length =20)
    private String state;

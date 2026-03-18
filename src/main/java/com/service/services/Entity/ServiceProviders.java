@@ -1,5 +1,6 @@
 package com.service.services.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -47,6 +48,7 @@ public class ServiceProviders {
     //verification
     @Column(nullable = false)
     @Size(min=5)
+    @JsonIgnore
     private String password;
 
        // when admin took action
@@ -55,6 +57,7 @@ public class ServiceProviders {
     @Enumerated(EnumType.STRING)
     private Role role;
     @Column(name = "is_verified")
+    @JsonIgnore
     private boolean isVerified=true;
     @Column(length = 255)
     private String rejectionReason;
