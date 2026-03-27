@@ -33,7 +33,7 @@ public class AllService {
     UniversalMapping universalMapping;
     private static final String CACHE_NAME="category";
     private static final String CACHE_NAME1="by_state";
-    private static final String CACHE_NAME2="by_district";
+    private static final String CACHE_NAME2="by_state_district";
     private static final String CACHE_NAME3="by_block";
     private static final String CACHE_NAME4="by_village";
 
@@ -62,40 +62,42 @@ public class AllService {
         return pageResponse;
      }
 
-     @Cacheable(cacheNames =CACHE_NAME2,key="{#district,#page,#size}",unless = "#result == null")
-     @Transactional
-     public PageResponse findByDistrictName(String district,int page,int size){
-         log.info("try to find the serviceProviders according to the the district :{}",district);
-         Pageable pageable=PageRequest.of(size,page);
-        Page<ServiceProviders> serviceProviders= serviceProvidersRepo.findByLocation_District(district,pageable);
-        log.info("find successful lets delegates for mapping {}",district);
-        PageResponse pageResponse=universalMapping.getMapped(serviceProviders);
-        log.info("map successful lets return the Controller ");
-        return pageResponse;
+     public  PageResponse findByStateAndDistrictName(String state,String district,int page,int size){
+        log.info("try to find the service providers based on the state: {} and district: {}",state,district);
+        Pageable pageable=PageRequest.of(page,size);
+       Page<ServiceProviders> serviceProvidersPage= serviceProvidersRepo.findByLocation_StateAndLocation_District(state,district,pageable);
+       log.info("find successful lets map to dto");
+       PageResponse pageResponse=universalMapping.getMapped(serviceProvidersPage);
+       log.info("map successful lets return to the controller");
+       return pageResponse;
      }
 
-    @Cacheable(cacheNames =CACHE_NAME3,key="{#block,#page,#size}",unless = "#result == null")
-    @Transactional
-     public PageResponse findByBlockName(String block,int page,int size){
-         log.info("try to fetch the serviceProviders based on the Block {}",block);
-         Pageable pageable=PageRequest.of(size,page);
-         Page<ServiceProviders> serviceProviders=serviceProvidersRepo.findByLocation_Block(block,pageable);
-         log.info("find successful lets delegates for mapping ");
-         PageResponse pageResponse=universalMapping.getMapped(serviceProviders);
-         log.info("map successful lets return the Controller ");
-         return pageResponse;
-     }
-    @Cacheable(cacheNames =CACHE_NAME3,key="{#village,#page,#size}",unless = "#result == null")
-    @Transactional
-     public PageResponse findByVillageName(String village,int page, int size){
-         log.info("try to fetch the serviceProvides based on the basis of village {}",village);
-         Pageable pageable=PageRequest.of(size,page);
-         Page<ServiceProviders> serviceProviders=serviceProvidersRepo.findByLocation_Village(village,pageable);
-         log.info("find successful delegates the request for mapping");
-         PageResponse pageResponse=universalMapping.getMapped(serviceProviders);
-         log.info("map successful lets return the response to the controller");
-         return pageResponse;
-     }
+    public  PageResponse findByStateAndDistrictAndBlockName(String state,String district,String block,int page,int size){
+        log.info("try to find the service providers based on the state: {},district: {},block: {}",state,district,block);
+        Pageable pageable=PageRequest.of(page,size);
+        Page<ServiceProviders> serviceProvidersPage= serviceProvidersRepo.findByLocation_StateAndLocation_DistrictAndLocation_Block(
+                state,district,block,pageable
+        );
+        log.info("find successful lets map to dto");
+        PageResponse pageResponse=universalMapping.getMapped(serviceProvidersPage);
+        log.info("map successful lets return to the controller");
+        return pageResponse;
+    }
+
+    public  PageResponse findByStateAndDistrictAndBlockAndVillageName(String state,String district,String block,String village,int page,int size){
+        log.info("try to find the service providers based on the state: {},district: {},block: {},village: {}",state,district,block,village);
+        Pageable pageable=PageRequest.of(page,size);
+        Page<ServiceProviders> serviceProvidersPage= serviceProvidersRepo.findByLocation_StateAndLocation_DistrictAndLocation_BlockAndLocation_Village(
+                state,district,block,village,pageable
+        );
+        log.info("find successful lets map to dto");
+        PageResponse pageResponse=universalMapping.getMapped(serviceProvidersPage);
+        log.info("map successful lets return to the controller");
+        return pageResponse;
+    }
+
+
+
 
 
 

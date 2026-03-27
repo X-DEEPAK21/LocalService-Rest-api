@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ServiceProvidersRepo extends JpaRepository<ServiceProviders,Long> {
@@ -18,13 +19,33 @@ public interface ServiceProvidersRepo extends JpaRepository<ServiceProviders,Lon
 //// Location methods
     Page<ServiceProviders> findByLocation_State(String state,Pageable pageable);
 
-    Page<ServiceProviders> findByLocation_District(String district, Pageable pageable);
+    Page<ServiceProviders> findByLocation_StateAndLocation_District(
+            String state,
+            String district,
+            Pageable pageable
+    );
 
-    Page<ServiceProviders> findByLocation_Block(String block, Pageable pageable);
+    Page<ServiceProviders> findByLocation_StateAndLocation_DistrictAndLocation_Block(
+            String state,
+            String district,
+            String block,
+            Pageable pageable
+    );
 
-    Page<ServiceProviders> findByLocation_Village(String village, Pageable pageable);
+    Page<ServiceProviders> findByLocation_StateAndLocation_DistrictAndLocation_BlockAndLocation_Village(
+            String state,
+            String district,
+            String block,
+            String village,
+            Pageable pageable
+    );
 //// skill categories methods
     Page<ServiceProviders> findByCategories_Name(String category, Pageable pageable);
+/// //
+    Page<ServiceProviders> findDistinctByCategories_NameIn(
+            Set<String> categories,
+            Pageable pageable
+    );
 
     Page<ServiceProviders> findByCategories_NameAndLocation_State(
             String category,
@@ -49,6 +70,37 @@ public interface ServiceProvidersRepo extends JpaRepository<ServiceProviders,Lon
             String block,
             String village,
             Pageable pageable);
+
+    // 1. Categories + State
+    Page<ServiceProviders> findDistinctByCategories_NameInAndLocation_State(
+            Set<String> categories,
+            String state,
+            Pageable pageable
+    );
+    // 2. Categories + State + District
+    Page<ServiceProviders> findDistinctByCategories_NameInAndLocation_StateAndLocation_District(
+            Set<String> categories,
+            String state,
+            String district,
+            Pageable pageable
+    );
+    // 3. Categories + State + District + Block
+    Page<ServiceProviders> findDistinctByCategories_NameInAndLocation_StateAndLocation_DistrictAndLocation_Block(
+            Set<String> categories,
+            String state,
+            String district,
+            String block,
+            Pageable pageable
+    );
+    // 4. Categories + State + District + Block + Village
+    Page<ServiceProviders> findDistinctByCategories_NameInAndLocation_StateAndLocation_DistrictAndLocation_BlockAndLocation_Village(
+            Set<String> categories,
+            String state,
+            String district,
+            String block,
+            String village,
+            Pageable pageable
+    );
 
 
 }
