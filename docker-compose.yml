@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  project-db:
+    image: mysql:8.0
+    container_name: mysql-db-container
+    #    ports:
+    #      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: deepak
+      MYSQL_PASSWORD: deepak123
+    networks:
+      - myNetwork
+
+  main-project:
+    image: docker-learning:0.0.1
+    container_name: spring-boot-main-container
+    ports:
+      - "9099:9099"
+    networks:
+      - myNetwork
+    depends_on:
+      - project-db
+
+networks:
+  myNetwork:
