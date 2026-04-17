@@ -12,6 +12,7 @@ import com.service.services.Service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<RegistrationResponseDto> createUser(@RequestBody RegisterRequestDto registerRequestDto){
+    public ResponseEntity<RegistrationResponseDto> createUser(@Valid @RequestBody RegisterRequestDto registerRequestDto){
       log.info("user forward to service for registration");
       ServiceProviders serviceProviders= userService.createUser(registerRequestDto);
         RegistrationResponseDto registerResponseDto= modelMapper.map(serviceProviders, RegistrationResponseDto.class);

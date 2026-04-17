@@ -37,7 +37,7 @@ public class UserController {
     public ResponseEntity<ProfileResponseDto> updateUserProfile(){
     log.info("request reached at the controller lets forward it to the service ");
 
-
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 }
