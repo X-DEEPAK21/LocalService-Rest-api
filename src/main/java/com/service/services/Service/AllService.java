@@ -6,6 +6,8 @@ import com.service.services.Mapping.UniversalMapping;
 import com.service.services.Repository.ServiceProvidersRepo;
 import com.service.services.ServiceDtos.PageResponse;
 import com.service.services.ServiceDtos.ServiceProvidersDto;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,7 @@ public class AllService {
        return pageResponse;
     }
     /// find by only state
+
     @Cacheable(cacheNames =CACHE_NAME1,key="{#state,#page,#size}",unless = "#result == null")
     @Transactional
      public PageResponse findByStateName(String state,int page,int size){
@@ -61,6 +64,8 @@ public class AllService {
         log.info("map successful lets return the controller ");
         return pageResponse;
      }
+     @Retry(name = "findByStateAndDistrictName",fallbackMethod = "fallbackMethodOffindByStateAndDistrictName")
+     @RateLimiter(name = "")
     @Cacheable(cacheNames =CACHE_NAME2,key="{#state,#district,#page,#size}",unless = "#result == null")
     @Transactional
      public  PageResponse findByStateAndDistrictName(String state,String district,int page,int size){
